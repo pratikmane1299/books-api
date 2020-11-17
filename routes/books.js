@@ -51,4 +51,21 @@ router.put('/:id', async (req, res) => {
 
 });
 
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  const book = await db.select('*').from('books').where('id', '=' , id).first();
+
+  if (!book) {
+    return res.status(404).json({ message: `Book with id ${id} not found.`})
+  }
+
+  const response = await db('books')
+    .del()
+    .where('id', id)
+    .returning('*');
+
+  res.json(response[0]);  
+});
+
 module.exports = router;
