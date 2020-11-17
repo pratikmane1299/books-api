@@ -31,4 +31,24 @@ router.post('/', async (req, res) => {
   res.json(newBook[0]);
 });
 
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  const book = await db.select('*').from('books').where('id', '=' , id).first();
+
+  if (!book) {
+    return res.status(404).json({ message: `Book with id ${id} not found.`})
+  }
+
+  const data = req.body;
+
+  const response = await db('books')
+    .update(data)
+    .where('id', id)
+    .returning('*');
+
+  res.json(response[0]);
+
+});
+
 module.exports = router;
