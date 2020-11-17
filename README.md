@@ -31,3 +31,7 @@ docker-compose up
 ```
 npm run dev
 ```
+
+# License
+
+This repository and the code inside it is licensed under the MIT License. Read [LICENSE](./LICENSE) for more information.
