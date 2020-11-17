@@ -23,4 +23,12 @@ router.get('/:id', async (req, res) => {
   res.json(book);
 });
 
+router.post('/', async (req, res) => {
+  const book = req.body;
+
+  const newBook = await db('books').insert(book).returning('*');
+
+  res.json(newBook[0]);
+});
+
 module.exports = router;
