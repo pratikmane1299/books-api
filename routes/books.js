@@ -4,10 +4,10 @@ const db = require('../db');
 
 const router = express.Router();
 
-router.use('/', (req, res) => {
-  res.json({
-    message: 'Books API'
-  });
+router.get('/', async (req, res) => {
+  const books = await db.select('*').from('books');
+  
+  res.json(books);
 });
 
 module.exports = router;
