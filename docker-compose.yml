@@ -10,6 +10,9 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - psql:/var/lib/postgresql/data
+
   adminer:
     image: adminer
     container_name: adminer
@@ -18,3 +21,6 @@ services:
       - 1234:8080
     links:
       - postgres
+
+volumes:
+  psql:
