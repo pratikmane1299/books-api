@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 require('dotenv').config();
 const swaggerUi = require('swagger-ui-express')
 
@@ -10,6 +11,8 @@ const authorRouter = require('./routes/author');
 const swaggerFile = require('./swagger_output.json')
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 
