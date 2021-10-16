@@ -1,0 +1,910 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Book Catalogue API",
+    "description": "Book catalogue api consisting of authors, genre, publishers and books"
+  },
+  "host": "localhost:4242",
+  "basePath": "/",
+  "tags": [],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/v1/books/": {
+      "get": {
+        "tags": [
+          "Books"
+        ],
+        "description": "Get all books",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "number",
+            "required": false,
+            "description": "page number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "number",
+            "required": false,
+            "description": "number of books returned"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Books fetched successfully",
+            "schema": {
+              "$ref": "#/definitions/booksResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Books"
+        ],
+        "description": "Add a new book",
+        "parameters": [
+          {
+            "name": "book",
+            "in": "body",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/AddBook"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Book added successfully",
+            "schema": {
+              "$ref": "#/definitions/addNewBookResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/v1/books/{id}": {
+      "get": {
+        "tags": [
+          "Books"
+        ],
+        "description": "Get a book by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Book fetched successfully",
+            "schema": {
+              "$ref": "#/definitions/bookResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Books"
+        ],
+        "description": "Update a book by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "book",
+            "in": "body",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/UpdateBook"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Book updated successfully",
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          },
+          "400": {
+            "description": "Invalid Genre id",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Not a valid genre id"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Book not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Book not found"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Books"
+        ],
+        "description": "Delete a book by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Book deleted successfully",
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          },
+          "404": {
+            "description": "Book not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Book not found"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/genres/": {
+      "get": {
+        "tags": [
+          "Genres"
+        ],
+        "description": "Get all genres",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "number",
+            "required": false,
+            "description": "page number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "number",
+            "required": false,
+            "description": "number of genres returned"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Genres fetched successfully",
+            "schema": {
+              "$ref": "#/definitions/genresResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Genres"
+        ],
+        "description": "Add a new genre",
+        "parameters": [
+          {
+            "name": "genre",
+            "in": "body",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/AddGenre"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Genre added successfully",
+            "schema": {
+              "$ref": "#/definitions/addNewGenreResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/genres/{genreId}": {
+      "get": {
+        "tags": [
+          "Genres"
+        ],
+        "description": "Get a genre by id",
+        "parameters": [
+          {
+            "name": "genreId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Genre fetched successfully",
+            "schema": {
+              "$ref": "#/definitions/genreResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/genres/{genreId}/books": {
+      "get": {
+        "tags": [
+          "Genres"
+        ],
+        "description": "Get books for a genre",
+        "parameters": [
+          {
+            "name": "genreId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Books fetched successfully",
+            "schema": {
+              "$ref": "#/definitions/booksResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/publishers/": {
+      "get": {
+        "tags": [
+          "Publishers"
+        ],
+        "description": "Get all publishers",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "number",
+            "required": false,
+            "description": "page number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "number",
+            "required": false,
+            "description": "number of publishers returned"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Books fetched successfully",
+            "schema": {
+              "$ref": "#/definitions/publishersResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Publishers"
+        ],
+        "description": "Add a new publisher",
+        "parameters": [
+          {
+            "name": "publisher",
+            "in": "body",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/AddPublisher"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Publisher added successfully",
+            "schema": {
+              "$ref": "#/definitions/addNewPublisherResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/publishers/{publisherId}": {
+      "get": {
+        "tags": [
+          "Publishers"
+        ],
+        "description": "Get a publisher by id",
+        "parameters": [
+          {
+            "name": "publisherId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Publisher fetched successfully",
+            "schema": {
+              "$ref": "#/definitions/publisherResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/publishers/{publisherId}/books": {
+      "get": {
+        "tags": [
+          "Publishers"
+        ],
+        "description": "Get books for a publisher",
+        "parameters": [
+          {
+            "name": "publisherId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Books fetched successfully",
+            "schema": {
+              "$ref": "#/definitions/booksResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/authors/": {
+      "get": {
+        "tags": [
+          "Authors"
+        ],
+        "description": "Get all authors",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "number",
+            "required": false,
+            "description": "page number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "number",
+            "required": false,
+            "description": "number of authors returned"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authors fetched successfully",
+            "schema": {
+              "$ref": "#/definitions/authorsResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Authors"
+        ],
+        "description": "Add a new author",
+        "parameters": [
+          {
+            "name": "author",
+            "in": "body",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/AddAuthor"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Author added successfully",
+            "schema": {
+              "$ref": "#/definitions/addNewAuthorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/authors/{authorId}": {
+      "get": {
+        "tags": [
+          "Authors"
+        ],
+        "description": "Get a author by id",
+        "parameters": [
+          {
+            "name": "authorId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Author fetched successfully",
+            "schema": {
+              "$ref": "#/definitions/authorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/authors/{authorId}/books": {
+      "get": {
+        "tags": [
+          "Authors"
+        ],
+        "description": "Get books for a author",
+        "parameters": [
+          {
+            "name": "authorId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Books fetched successfully",
+            "schema": {
+              "$ref": "#/definitions/booksResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Genre": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "name": {
+          "type": "string",
+          "example": "Technology"
+        }
+      }
+    },
+    "Author": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "name": {
+          "type": "string",
+          "example": "Fredie Smith"
+        }
+      }
+    },
+    "Publisher": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "name": {
+          "type": "string",
+          "example": "Your avg publishers"
+        }
+      }
+    },
+    "Book": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "title": {
+          "type": "string",
+          "example": "Introduction to programming"
+        },
+        "description": {
+          "type": "string",
+          "example": ""
+        },
+        "price": {
+          "type": "number",
+          "example": 324
+        },
+        "pageCount": {
+          "type": "number",
+          "example": 522
+        },
+        "publishedDate": {
+          "type": "string",
+          "example": ""
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2021-10-11T16:29:19.321Z"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "2021-10-11T16:29:19.321Z"
+        },
+        "genreId": {
+          "type": "number",
+          "example": 2
+        },
+        "genre": {
+          "$ref": "#/definitions/Genre"
+        },
+        "authors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Author"
+          }
+        },
+        "publishers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Publisher"
+          }
+        }
+      }
+    },
+    "genresResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Genre"
+          }
+        },
+        "total": {
+          "type": "number",
+          "example": 1343
+        }
+      }
+    },
+    "authorsResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Author"
+          }
+        },
+        "total": {
+          "type": "number",
+          "example": 222
+        }
+      }
+    },
+    "publishersResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Publisher"
+          }
+        },
+        "total": {
+          "type": "number",
+          "example": 33
+        }
+      }
+    },
+    "booksResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number",
+                "example": 1
+              },
+              "title": {
+                "type": "string",
+                "example": "Introduction to programming"
+              },
+              "description": {
+                "type": "string",
+                "example": ""
+              },
+              "price": {
+                "type": "number",
+                "example": 324
+              },
+              "pageCount": {
+                "type": "number",
+                "example": 522
+              },
+              "publishedDate": {
+                "type": "string",
+                "example": "23/03/2021"
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2021-10-11T16:29:19.321Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2021-10-11T16:29:19.321Z"
+              },
+              "genreId": {
+                "type": "number",
+                "example": 2
+              }
+            }
+          }
+        },
+        "total": {
+          "type": "number",
+          "example": 324
+        }
+      }
+    },
+    "authorResponse": {
+      "$ref": "#/definitions/Author"
+    },
+    "genreResponse": {
+      "$ref": "#/definitions/Genre"
+    },
+    "bookResponse": {
+      "$ref": "#/definitions/Book"
+    },
+    "publisherResponse": {
+      "$ref": "#/definitions/Publisher"
+    },
+    "addNewBookResponse": {
+      "$ref": "#/definitions/Book"
+    },
+    "addNewPublisherResponse": {
+      "$ref": "#/definitions/Publisher"
+    },
+    "addNewGenreResponse": {
+      "$ref": "#/definitions/Genre"
+    },
+    "addNewAuthorResponse": {
+      "$ref": "#/definitions/Author"
+    },
+    "AddBook": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "Introduction to programming"
+        },
+        "description": {
+          "type": "string",
+          "example": "Great book for programming"
+        },
+        "price": {
+          "type": "number",
+          "example": 324
+        },
+        "pageCount": {
+          "type": "number",
+          "example": 522
+        },
+        "publishedDate": {
+          "type": "string",
+          "example": "23/03/2021"
+        },
+        "genreId": {
+          "type": "number",
+          "example": 2
+        },
+        "authorIds": {
+          "type": "array",
+          "example": [
+            1,
+            2
+          ],
+          "items": {
+            "type": "number"
+          }
+        },
+        "publisherIds": {
+          "type": "array",
+          "example": [
+            4,
+            3
+          ],
+          "items": {
+            "type": "number"
+          }
+        }
+      },
+      "required": [
+        "title",
+        "price",
+        "pageCount",
+        "publishedDate",
+        "genreId",
+        "authorIds",
+        "publisherIds"
+      ]
+    },
+    "UpdateBook": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "Introduction to programming"
+        },
+        "description": {
+          "type": "string",
+          "example": "Great book for programming"
+        },
+        "price": {
+          "type": "number",
+          "example": 324
+        },
+        "pageCount": {
+          "type": "number",
+          "example": 522
+        },
+        "publishedDate": {
+          "type": "string",
+          "example": "23/03/2021"
+        },
+        "genreId": {
+          "type": "number",
+          "example": 2
+        }
+      },
+      "required": [
+        "title",
+        "price",
+        "pageCount",
+        "publishedDate",
+        "genreId"
+      ]
+    },
+    "AddAuthor": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Fredie Smith"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "AddGenre": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Literature"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "AddPublisher": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Your avg publishers"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    }
+  }
+}
