@@ -4,9 +4,11 @@ module.exports = {
   development: {
     client: 'pg',
     connection: {
-      database: process.env.DB_NAME,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
+			connectionString: process.env.DATABASE_URL,
+			ssl: { rejectUnauthorized: false },
+      // database: process.env.DB_NAME,
+      // user: process.env.DB_USER,
+      // password: process.env.DB_PASSWORD,
     },
     migrations: {
       directory: './db/migrations' 
@@ -19,7 +21,7 @@ module.exports = {
     client: 'pg',
     connection: {
       connectionString: process.env.DATABASE_URL,
-      ssl: { rejectUnauthorized: false }
+      // ssl: { rejectUnauthorized: false }
     },
     migrations: {
       directory: './db/migrations',
