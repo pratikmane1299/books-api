@@ -5,7 +5,7 @@
     "title": "Book Catalogue API",
     "description": "Book catalogue api consisting of authors, genre, publishers and books"
   },
-  "host": "localhost:4242",
+  "host": "https://books-catalogue-api.onrender.com",
   "basePath": "/",
   "tags": [],
   "schemes": [
